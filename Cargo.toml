@@ -1,0 +1,13 @@
+[package]
+name = "rustfmt_if_chain"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.52"
+if_chain = "1.0.2"
+proc-macro2 = { version = "1.0.36", features = ["span-locations"] }
+quote = "1.0.14"
+sedregex = "0.2.5"
+syn = { version = "1.0.84", features = ["full", "visit"] }
+tempfile = "3.2.0"
