@@ -1,7 +1,11 @@
 [package]
 name = "rustfmt_if_chain"
 version = "0.1.0"
+authors = ["Samuel E. Moelius III <sam@moeli.us>"]
+description = "An if_chain-aware rustfmt (kind of)"
 edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/smoelius/rustfmt_if_chain"
 autoexamples = false
 
 [dependencies]
