@@ -27,7 +27,7 @@ fn main() -> Result<()> {
     let original = if let [_, filename] = args.as_slice() {
         Path::new(filename)
     } else {
-        eprintln!("usage: rustfmt_if_chain FILENAME");
+        eprintln!("Usage: rustfmt_if_chain FILENAME");
         exit(1);
     };
 
