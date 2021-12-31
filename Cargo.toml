@@ -2,6 +2,7 @@
 name = "rustfmt_if_chain"
 version = "0.1.0"
 edition = "2021"
+autoexamples = false
 
 [dependencies]
 anyhow = "1.0.52"
@@ -11,3 +12,6 @@ quote = "1.0.14"
 sedregex = "0.2.5"
 syn = { version = "1.0.84", features = ["full", "visit"] }
 tempfile = "3.2.0"
+
+[dev-dependencies]
+assert_cmd = "2.0.2"
