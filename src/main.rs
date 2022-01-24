@@ -96,8 +96,12 @@ impl<'ast, 'rewrite> Visit<'ast> for RewriteVisitor<'rewrite> {
 
 impl<'rewrite> RewriteVisitor<'rewrite> {
     fn rewrite_tokens(&mut self, tokens: &TokenStream) {
-        let mut curr_ends_let = false;
         let mut iter = tokens.clone().into_iter().peekable();
+        let mut curr_ends_let = if let Some(TokenTree::Ident(ident)) = iter.peek() {
+            ident == "let"
+        } else {
+            false
+        };
         while let Some(curr) = iter.next() {
             match (&curr, iter.peek()) {
                 (TokenTree::Punct(punct), Some(TokenTree::Ident(next)))
