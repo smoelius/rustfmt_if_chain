@@ -4,7 +4,7 @@ use proc_macro2::{Span, TokenStream, TokenTree};
 use quote::{quote, ToTokens};
 use sedregex::find_and_replace;
 use std::{
-    env::args,
+    env,
     fs::{copy, read_to_string, rename},
     io::Write,
     path::Path,
@@ -22,26 +22,63 @@ mod rewriter;
 use rewriter::Rewriter;
 
 fn main() -> Result<()> {
-    let args = args().collect::<Vec<_>>();
+    let (args, paths, preformat_failure_is_warning) = process_args();
 
-    let original = if let [_, filename] = args.as_slice() {
-        Path::new(filename)
-    } else {
-        eprintln!("Usage: rustfmt_if_chain FILENAME");
-        exit(1);
-    };
+    for path in paths {
+        let original = Path::new(&path);
 
-    let original_formatted = rustfmt(original)?;
+        if let Err(error) = rustfmt(original, &args) {
+            if preformat_failure_is_warning {
+                eprintln!("Warning: {}", error);
+                continue;
+            }
+            return Err(error);
+        }
 
-    let (rewritten, marker) = rewrite_if_chain(original_formatted.path())?;
+        let (rewritten, marker) = rewrite_if_chain(original)?;
 
-    let rewritten_formatted = rustfmt(rewritten.path())?;
+        let rewritten_formatted = rustfmt(rewritten.path(), &args)?;
 
-    let restored = restore_if_chain(rewritten_formatted.path(), &marker)?;
+        let restored = restore_if_chain(rewritten_formatted.path(), &marker)?;
 
-    rename(restored.path(), original)?;
+        rename(restored.path(), original)?;
+    }
 
     Ok(())
+}
+
+#[allow(clippy::case_sensitive_file_extension_comparisons)]
+fn process_args() -> (Vec<String>, Vec<String>, bool) {
+    let mut args = Vec::new();
+    let mut paths = Vec::new();
+    let mut preformat_failure_is_warning = false;
+    for arg in env::args().skip(1) {
+        if arg == "--help" || arg == "-h" {
+            usage();
+        } else if arg == "--preformat-failure-is-warning" {
+            preformat_failure_is_warning = true;
+        } else if arg.to_lowercase().ends_with(".rs") {
+            paths.push(arg);
+        } else {
+            args.push(arg);
+        }
+    }
+    (args, paths, preformat_failure_is_warning)
+}
+
+fn usage() -> ! {
+    println!(
+        "\
+Usage: rustfmt_if_chain [ARGS]
+
+Arguments ending with `.rs` are considered source files and are formatted. All other arguments are
+forwarded to `rustfmt`, with one exception.
+
+The one argument not forwarded to `rustfmt` is `--preformat-failure-is-warning`. If this option is
+passed and `rustfmt` fails on an unmodified source file, a warning results instead of an error.\
+"
+    );
+    exit(0);
 }
 
 fn rewrite_if_chain(path: &Path) -> Result<(NamedTempFile, Ident)> {
@@ -153,14 +190,17 @@ fn restore_if_chain(path: &Path, marker: &Ident) -> Result<NamedTempFile> {
     Ok(tempfile)
 }
 
-fn rustfmt(path: &Path) -> Result<NamedTempFile> {
+fn rustfmt(path: &Path, args: &[String]) -> Result<NamedTempFile> {
     let tempfile = sibling_tempfile(path)?;
 
     copy(path, tempfile.path())?;
 
-    let status = Command::new("rustfmt").arg(tempfile.path()).status()?;
+    let mut command = Command::new("rustfmt");
+    command.args(args);
+    command.arg(tempfile.path());
+    let status = command.status()?;
 
-    ensure!(status.success());
+    ensure!(status.success(), "could not format {:?}", path);
 
     Ok(tempfile)
 }
