@@ -18,6 +18,10 @@ use syn::{
 };
 use tempfile::NamedTempFile;
 
+mod offset_based_rewriter;
+
+mod offset_calculator;
+
 mod rewriter;
 use rewriter::Rewriter;
 
