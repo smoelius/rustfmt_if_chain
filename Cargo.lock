@@ -266,6 +266,7 @@ dependencies = [
  "if_chain",
  "proc-macro2",
  "quote",
+ "regex",
  "rustc_version",
  "sedregex",
  "syn",
