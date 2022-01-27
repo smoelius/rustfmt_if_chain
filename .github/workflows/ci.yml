@@ -1,0 +1,40 @@
+name: CI
+
+on: [pull_request, push, workflow_dispatch]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install dependencies
+        run: |
+          rustup install nightly
+          rustup component add clippy --toolchain nightly
+          rustup component add rustfmt
+          cargo install cargo-license || true
+          cargo install cargo-sort    || true
+          cargo install cargo-udeps   || true
+          cargo install lychee        || true
+
+      - name: Test
+        run: cargo test
+
+      - name: Test with checks
+        run: cargo test --test clippy --test dogfood --test example --features=check-offsets,check-rewrites
