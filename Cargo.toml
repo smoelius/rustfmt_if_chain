@@ -1,6 +1,6 @@
 [package]
 name = "rustfmt_if_chain"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Samuel E. Moelius III <sam@moeli.us>"]
 description = "An if_chain-aware rustfmt (kind of)"
 edition = "2021"
@@ -15,7 +15,7 @@ proc-macro2 = { version = "1.0", features = ["span-locations"] }
 quote = "1.0"
 sedregex = "0.2"
 syn = { version = "1.0", features = ["full", "visit"] }
-tempfile = "3.2"
+tempfile = "3.3"
 
 [build-dependencies]
 rustc_version = "0.4"
