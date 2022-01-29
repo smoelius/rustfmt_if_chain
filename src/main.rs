@@ -1,11 +1,11 @@
-use anyhow::{anyhow, ensure, Result};
+use anyhow::{ensure, Result};
 use if_chain::if_chain;
 use proc_macro2::{Span, TokenStream, TokenTree};
 use quote::{quote, ToTokens};
 use sedregex::find_and_replace;
 use std::{
     env,
-    fs::{copy, read_to_string, rename},
+    fs::{read_to_string, OpenOptions},
     io::Write,
     path::Path,
     process::{exit, Command},
@@ -16,11 +16,16 @@ use syn::{
     visit::{visit_item, Visit},
     Ident, Item, ItemMacro, Macro,
 };
-use tempfile::NamedTempFile;
 
 mod offset_based_rewriter;
 
 mod offset_calculator;
+
+mod backup;
+use backup::Backup;
+
+mod failed_to;
+use failed_to::FailedTo;
 
 mod rewriter;
 use rewriter::Rewriter;
@@ -29,9 +34,9 @@ fn main() -> Result<()> {
     let (args, paths, preformat_failure_is_warning) = process_args();
 
     for path in paths {
-        let original = Path::new(&path);
+        let path = Path::new(&path);
 
-        if let Err(error) = rustfmt(original, &args) {
+        if let Err(error) = rustfmt(path, &args) {
             if preformat_failure_is_warning {
                 eprintln!("Warning: {}", error);
                 continue;
@@ -39,13 +44,15 @@ fn main() -> Result<()> {
             return Err(error);
         }
 
-        let (rewritten, marker) = rewrite_if_chain(original)?;
+        let mut backup = Backup::new(path)?;
 
-        let rewritten_formatted = rustfmt(rewritten.path(), &args)?;
+        let marker = rewrite_if_chain(path)?;
 
-        let restored = restore_if_chain(rewritten_formatted.path(), &marker)?;
+        rustfmt(path, &args)?;
 
-        rename(restored.path(), original)?;
+        restore_if_chain(path, &marker)?;
+
+        backup.disable();
     }
 
     Ok(())
@@ -85,8 +92,8 @@ passed and `rustfmt` fails on an unmodified source file, a warning results inste
     exit(0);
 }
 
-fn rewrite_if_chain(path: &Path) -> Result<(NamedTempFile, Ident)> {
-    let contents = read_to_string(path)?;
+fn rewrite_if_chain(path: &Path) -> Result<Ident> {
+    let contents = read_to_string(path).failed_to(|| format!("read from {:?}", path))?;
 
     let marker = unused_ident(&contents);
 
@@ -99,12 +106,15 @@ fn rewrite_if_chain(path: &Path) -> Result<(NamedTempFile, Ident)> {
 
     visitor.visit_file(&file);
 
-    let mut tempfile = sibling_tempfile(path)?;
-    tempfile
-        .as_file_mut()
-        .write_all(visitor.rewriter.contents().as_bytes())?;
+    let mut file = OpenOptions::new()
+        .truncate(true)
+        .write(true)
+        .open(path)
+        .failed_to(|| format!("open {:?}", path))?;
+    file.write_all(visitor.rewriter.contents().as_bytes())
+        .failed_to(|| format!("write to {:?}", path))?;
 
-    Ok((tempfile, marker))
+    Ok(marker)
 }
 
 fn unused_ident(contents: &str) -> Ident {
@@ -176,8 +186,8 @@ impl<'rewrite> RewriteVisitor<'rewrite> {
     }
 }
 
-fn restore_if_chain(path: &Path, marker: &Ident) -> Result<NamedTempFile> {
-    let contents = read_to_string(path)?;
+fn restore_if_chain(path: &Path, marker: &Ident) -> Result<()> {
+    let contents = read_to_string(path).failed_to(|| format!("read from {:?}", path))?;
 
     let contents = find_and_replace(
         &contents,
@@ -188,31 +198,28 @@ fn restore_if_chain(path: &Path, marker: &Ident) -> Result<NamedTempFile> {
         ],
     )?;
 
-    let mut tempfile = sibling_tempfile(path)?;
-    tempfile.as_file_mut().write_all(contents.as_bytes())?;
+    let mut file = OpenOptions::new()
+        .truncate(true)
+        .write(true)
+        .open(path)
+        .failed_to(|| format!("open {:?}", path))?;
+    file.write_all(contents.as_bytes())
+        .failed_to(|| format!("write to {:?}", path))?;
 
-    Ok(tempfile)
+    Ok(())
 }
 
-fn rustfmt(path: &Path, args: &[String]) -> Result<NamedTempFile> {
-    let tempfile = sibling_tempfile(path)?;
-
-    copy(path, tempfile.path())?;
-
+fn rustfmt(path: &Path, args: &[String]) -> Result<()> {
     let mut command = Command::new("rustfmt");
     command.args(args);
-    command.arg(tempfile.path());
-    let status = command.status()?;
+    command.arg(path);
+    let status = command
+        .status()
+        .failed_to(|| format!("get status of {:?}", command))?;
 
     ensure!(status.success(), "could not format {:?}", path);
 
-    Ok(tempfile)
-}
-
-fn sibling_tempfile(path: &Path) -> Result<NamedTempFile> {
-    let parent = path.parent().ok_or_else(|| anyhow!("`parent` failed"))?;
-    let tempfile = NamedTempFile::new_in(parent)?;
-    Ok(tempfile)
+    Ok(())
 }
 
 fn match_if_chain(item: &Item) -> Option<(Span, &TokenStream)> {
