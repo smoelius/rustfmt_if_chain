@@ -8,15 +8,7 @@ mod ci {
     #[test]
     fn clippy() {
         Command::new("cargo")
-            .args(&[
-                "+nightly",
-                "clippy",
-                "--",
-                "-D",
-                "warnings",
-                "-W",
-                "clippy::pedantic",
-            ])
+            .args(&["clippy", "--", "-D", "warnings", "-W", "clippy::pedantic"])
             .assert()
             .success();
     }
