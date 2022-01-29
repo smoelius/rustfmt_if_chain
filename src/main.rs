@@ -217,7 +217,7 @@ fn rustfmt(path: &Path, args: &[String]) -> Result<()> {
         .status()
         .failed_to(|| format!("get status of {:?}", command))?;
 
-    ensure!(status.success(), "could not format {:?}", path);
+    ensure!(status.success(), "failed to format {:?}", path);
 
     Ok(())
 }
