@@ -24,7 +24,7 @@ mod ci {
 
     #[test]
     fn license() {
-        let re = Regex::new(r"^[^:]*\b(Apache-2.0|MIT)\b").unwrap();
+        let re = Regex::new(r"^[^:]*\b(Apache-2.0|BSD-3-Clause|MIT)\b").unwrap();
 
         for line in std::str::from_utf8(
             &Command::new("cargo")
