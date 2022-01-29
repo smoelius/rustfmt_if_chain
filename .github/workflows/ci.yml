@@ -20,7 +20,9 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-            target/
+            ~/.dylint_drivers/
+            ~/.rustup/toolchains/
+            target/dylint/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install dependencies
@@ -28,13 +30,14 @@ jobs:
           rustup install nightly
           rustup component add clippy --toolchain nightly
           rustup component add rustfmt
-          cargo install cargo-license || true
-          cargo install cargo-sort    || true
-          cargo install cargo-udeps   || true
-          cargo install lychee        || true
+          cargo install cargo-dylint dylint-link || true
+          cargo install cargo-license            || true
+          cargo install cargo-sort               || true
+          cargo install cargo-udeps              || true
+          cargo install lychee                   || true
 
       - name: Test
-        run: cargo test
+        run: cargo test --features=ci
 
       - name: Test with checks
-        run: cargo test --test clippy --test dogfood --test example --features=check-offsets,check-rewrites
+        run: cargo test --features=check-offsets,check-rewrites
