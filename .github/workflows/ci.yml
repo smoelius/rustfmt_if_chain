@@ -34,7 +34,6 @@ jobs:
           cargo install cargo-license            || true
           cargo install cargo-sort               || true
           cargo install cargo-udeps              || true
-          cargo install lychee                   || true
 
       - name: Test
         run: cargo test --features=ci
