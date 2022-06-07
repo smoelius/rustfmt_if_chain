@@ -8,7 +8,15 @@ mod ci {
     #[test]
     fn clippy() {
         Command::new("cargo")
-            .args(&["clippy", "--", "-D", "warnings", "-W", "clippy::pedantic"])
+            .args(&[
+                "clippy",
+                "--tests",
+                "--",
+                "-D",
+                "warnings",
+                "-W",
+                "clippy::pedantic",
+            ])
             .assert()
             .success();
     }
@@ -16,7 +24,7 @@ mod ci {
     #[test]
     fn dylint() {
         Command::new("cargo")
-            .args(&["dylint", "--all"])
+            .args(&["dylint", "--all", "--", "--tests"])
             .env("DYLINT_RUSTFLAGS", "--deny warnings")
             .assert()
             .success();
