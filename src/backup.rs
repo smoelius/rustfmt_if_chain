@@ -30,9 +30,9 @@ impl Backup {
 
 impl Drop for Backup {
     fn drop(&mut self) {
-        self.tempfile.take().map(|tempfile| {
+        if let Some(tempfile) = self.tempfile.take() {
             rename(tempfile.path(), &self.path).unwrap_or_default();
-        });
+        }
     }
 }
 
