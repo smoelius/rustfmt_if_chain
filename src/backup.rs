@@ -1,44 +1,45 @@
-use crate::FailedTo;
-use anyhow::{anyhow, Result};
 use std::{
     fs::{copy, rename},
-    path::Path,
+    io::Result,
+    path::{Path, PathBuf},
 };
 use tempfile::NamedTempFile;
 
-pub struct Backup<'path> {
-    path: &'path Path,
-    tempfile: NamedTempFile,
-    disabled: bool,
+pub struct Backup {
+    path: PathBuf,
+    tempfile: Option<NamedTempFile>,
 }
 
-impl<'path> Backup<'path> {
-    pub fn new(path: &'path Path) -> Result<Self> {
-        let tempfile = sibling_tempfile(path)?;
-        copy(&path, tempfile.path())
-            .failed_to(|| format!("copy {:?} to {:?}", path, tempfile.path()))?;
+impl Backup {
+    pub fn new<P>(path: P) -> Result<Self>
+    where
+        P: AsRef<Path>,
+    {
+        let tempfile = sibling_tempfile(path.as_ref())?;
+        copy(&path, tempfile.path())?;
         Ok(Self {
-            path,
-            tempfile,
-            disabled: false,
+            path: path.as_ref().to_path_buf(),
+            tempfile: Some(tempfile),
         })
     }
 
-    pub fn disable(&mut self) {
-        self.disabled = true;
+    pub fn disable(&mut self) -> Result<()> {
+        self.tempfile.take().map_or(Ok(()), NamedTempFile::close)
     }
 }
 
-impl<'path> Drop for Backup<'path> {
+impl Drop for Backup {
     fn drop(&mut self) {
-        if !self.disabled {
-            rename(self.tempfile.path(), &self.path).unwrap_or_default();
-        }
+        self.tempfile.take().map(|tempfile| {
+            rename(tempfile.path(), &self.path).unwrap_or_default();
+        });
     }
 }
 
 fn sibling_tempfile(path: &Path) -> Result<NamedTempFile> {
-    let parent = path.parent().ok_or_else(|| anyhow!("`parent` failed"))?;
-    let tempfile = NamedTempFile::new_in(parent).failed_to(|| "create named temp file")?;
-    Ok(tempfile)
+    let canonical_path = path.canonicalize()?;
+    let parent = canonical_path
+        .parent()
+        .expect("should not fail for a canonical path");
+    NamedTempFile::new_in(parent)
 }
