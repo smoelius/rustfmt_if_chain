@@ -44,7 +44,7 @@ fn main() -> Result<()> {
             return Err(error);
         }
 
-        let mut backup = Backup::new(path)?;
+        let mut backup = Backup::new(path).failed_to(|| format!("backup {:?}", path))?;
 
         let marker = rewrite_if_chain(path)?;
 
@@ -52,7 +52,9 @@ fn main() -> Result<()> {
 
         restore_if_chain(path, &marker)?;
 
-        backup.disable();
+        backup
+            .disable()
+            .failed_to(|| format!("disable {:?} backup", path))?;
     }
 
     Ok(())
@@ -77,18 +79,21 @@ fn process_args() -> (Vec<String>, Vec<String>, bool) {
     (args, paths, preformat_failure_is_warning)
 }
 
-fn usage() -> ! {
-    println!(
-        "\
+const USAGE: &str = "\
 Usage: rustfmt_if_chain [ARGS]
 
-Arguments ending with `.rs` are considered source files and are formatted. All other arguments are
-forwarded to `rustfmt`, with one exception.
+Arguments ending with `.rs` are considered source files and are
+formatted. All other arguments are forwarded to `rustfmt`, with one
+exception.
 
-The one argument not forwarded to `rustfmt` is `--preformat-failure-is-warning`. If this option is
-passed and `rustfmt` fails on an unmodified source file, a warning results instead of an error.\
-"
-    );
+The one argument not forwarded to `rustfmt` is
+`--preformat-failure-is-warning`. If this option is passed and `rustfmt`
+fails on an unmodified source file, a warning results instead of an
+error.\
+";
+
+fn usage() -> ! {
+    println!("{}", USAGE);
     exit(0);
 }
 
@@ -254,4 +259,29 @@ fn match_if_chain(item: &Item) -> Option<(Span, &TokenStream)> {
             None
         }
     }
+}
+
+#[test]
+fn usage_wrapping() {
+    let unwrapped =
+        find_and_replace(USAGE, [r#"s/(?P<left>\S)\s(?P<right>\S)/$left $right/g"#]).unwrap();
+    let mut prev = String::new();
+    let mut rewrapped = unwrapped.to_string();
+    while prev != rewrapped {
+        prev = rewrapped;
+        rewrapped = find_and_replace(
+            &prev,
+            [r#"s/(?m)^(?P<line>.{0,72})\s/$line
+/g"#],
+        )
+        .unwrap()
+        .to_string();
+    }
+    assert_eq!(USAGE, rewrapped);
+}
+
+#[test]
+fn readme_contains_usage() {
+    let readme = read_to_string(Path::new(env!("CARGO_MANIFEST_DIR")).join("README.md")).unwrap();
+    assert!(readme.contains(USAGE));
 }
