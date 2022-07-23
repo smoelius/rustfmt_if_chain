@@ -1,6 +1,6 @@
 [package]
 name = "rustfmt_if_chain"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Samuel E. Moelius III <sam@moeli.us>"]
 description = "An if_chain-aware rustfmt (kind of)"
 edition = "2021"
