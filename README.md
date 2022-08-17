@@ -62,7 +62,8 @@ error.
 
 ## Known problems
 
-`rustfmt_if_chain --check FILENAME` does not work correctly. A workaround is to use `rustfmt_if_chain FILENAME && git diff --exit-code`.
+- `rustfmt_if_chain --check FILENAME` does not work correctly. A workaround is to use `rustfmt_if_chain FILENAME && git diff --exit-code`.
+- Nested uses of `if_chain` are not handled correctly: only the outer-most use is formatted.
 
 [clippy]: https://github.com/rust-lang/rust-clippy
 [`if_chain`]: https://github.com/lambda-fairy/if_chain
