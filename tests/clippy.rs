@@ -24,6 +24,8 @@ fn clippy() {
         }
         let assert = Command::cargo_bin("rustfmt_if_chain")
             .unwrap()
+            .current_dir(tempdir.path())
+            .env_remove("RUSTUP_TOOLCHAIN")
             .arg(path)
             .assert();
         assert!(
