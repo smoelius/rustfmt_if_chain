@@ -33,10 +33,14 @@ use rewriter::Rewriter;
 fn main() -> Result<()> {
     let (args, paths, preformat_failure_is_warning) = process_args();
 
+    if paths.is_empty() {
+        return rustfmt(&args, None);
+    }
+
     for path in paths {
         let path = Path::new(&path);
 
-        if let Err(error) = rustfmt(path, &args) {
+        if let Err(error) = rustfmt(&args, Some(path)) {
             if preformat_failure_is_warning {
                 eprintln!("Warning: {}", error);
                 continue;
@@ -48,7 +52,7 @@ fn main() -> Result<()> {
 
         let marker = rewrite_if_chain(path)?;
 
-        rustfmt(path, &args)?;
+        rustfmt(&args, Some(path))?;
 
         restore_if_chain(path, &marker)?;
 
@@ -214,10 +218,12 @@ fn restore_if_chain(path: &Path, marker: &Ident) -> Result<()> {
     Ok(())
 }
 
-fn rustfmt(path: &Path, args: &[String]) -> Result<()> {
+fn rustfmt(args: &[String], path: Option<&Path>) -> Result<()> {
     let mut command = Command::new("rustfmt");
     command.args(args);
-    command.arg(path);
+    if let Some(path) = path {
+        command.arg(path);
+    }
     let status = command
         .status()
         .failed_to(|| format!("get status of {:?}", command))?;
