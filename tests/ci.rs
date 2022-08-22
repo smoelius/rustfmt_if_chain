@@ -120,7 +120,7 @@ mod ci {
     #[test]
     fn udeps() {
         Command::new("cargo")
-            .args(&["+nightly", "udeps", "--tests"])
+            .args(&["+nightly", "udeps", "--all-targets"])
             .assert()
             .success();
     }
