@@ -10,7 +10,8 @@ mod ci {
         Command::new("cargo")
             .args(&[
                 "clippy",
-                "--tests",
+                "--all-features",
+                "--all-targets",
                 "--",
                 "-D",
                 "warnings",
@@ -24,7 +25,7 @@ mod ci {
     #[test]
     fn dylint() {
         Command::new("cargo")
-            .args(&["dylint", "--all", "--", "--tests"])
+            .args(&["dylint", "--all", "--", "--all-features", "--all-targets"])
             .env("DYLINT_RUSTFLAGS", "--deny warnings")
             .assert()
             .success();

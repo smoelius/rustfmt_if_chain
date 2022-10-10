@@ -49,7 +49,7 @@ fn clippy() {
     writeln!(file, "[workspace]").unwrap();
 
     Command::new("cargo")
-        .args(&["build", "--tests"])
+        .args(&["build", "--all-features", "--all-targets"])
         .current_dir(tempdir.path())
         .env_remove("RUSTUP_TOOLCHAIN")
         .assert()
