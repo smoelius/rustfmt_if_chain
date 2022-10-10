@@ -39,4 +39,4 @@ jobs:
         run: cargo test --features=ci
 
       - name: Test with checks
-        run: cargo test --features=check-offsets,check-rewrites
+        run: cargo test --features=check-offsets,check-rewrites,check-spans

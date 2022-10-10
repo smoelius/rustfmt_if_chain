@@ -28,6 +28,7 @@ walkdir = "2.3"
 [features]
 check-offsets = []
 check-rewrites = []
+check-spans = []
 ci = []
 
 [workspace.metadata.dylint]
