@@ -2,14 +2,12 @@ use assert_cmd::Command;
 use std::{
     ffi::OsStr,
     io::{stderr, Write},
-    path::Path,
+    path::{Path, PathBuf},
 };
 use walkdir::WalkDir;
 
 #[test]
 fn dogfood() {
-    let src = Path::new(env!("CARGO_MANIFEST_DIR")).join("src");
-
     if Command::new("git")
         .args(&["diff", "--exit-code"])
         .assert()
@@ -21,12 +19,15 @@ fn dogfood() {
         return;
     }
 
-    for entry in WalkDir::new(src) {
-        let entry = entry.unwrap();
-        let path = entry.path();
-        if path.extension() != Some(OsStr::new("rs")) {
-            continue;
-        }
+    let paths = paths();
+
+    // smoelius: Sanity.
+    assert!(paths
+        .iter()
+        .any(|path| path.file_name().unwrap() == "main.rs"));
+
+    // smoelius: Format files individually.
+    for path in &paths {
         Command::cargo_bin("rustfmt_if_chain")
             .unwrap()
             .arg(path)
@@ -34,8 +35,32 @@ fn dogfood() {
             .success();
     }
 
+    // smoelius: Format all files with one command.
+    Command::cargo_bin("rustfmt_if_chain")
+        .unwrap()
+        .args(paths)
+        .assert()
+        .success();
+
     Command::new("git")
         .args(&["diff", "--exit-code"])
         .assert()
         .success();
+}
+
+fn paths() -> Vec<PathBuf> {
+    let src = Path::new(env!("CARGO_MANIFEST_DIR")).join("src");
+
+    WalkDir::new(src)
+        .into_iter()
+        .filter_map(|entry| {
+            let entry = entry.unwrap();
+            let path = entry.path();
+            if path.extension() == Some(OsStr::new("rs")) {
+                Some(path.to_path_buf())
+            } else {
+                None
+            }
+        })
+        .collect()
 }
