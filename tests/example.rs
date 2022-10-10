@@ -1,4 +1,4 @@
-#![cfg_attr(nightly, feature(bench_black_box, test))]
+#![cfg_attr(nightly, feature(test))]
 
 #[cfg(nightly)]
 extern crate test;
