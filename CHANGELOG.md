@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+- An incorrect internal check was causing `rustfmt_if_chain` to panic when applied to multiple files. The check is now corrected and guarded by a feature. ([0fa6a80](https://github.com/smoelius/rustfmt_if_chain/commit/0fa6a80328de648729261496bc930270acbc2b48))
+
 ## 0.1.3
 
 - Update README.md ([42dd5f4](https://github.com/smoelius/rustfmt_if_chain/commit/42dd5f436876755b40f2532de585807bf411aa51))
