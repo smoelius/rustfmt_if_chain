@@ -22,7 +22,7 @@ rustc_version = "0.4"
 
 [dev-dependencies]
 assert_cmd = "2.0"
-regex = "1.6"
+regex = "1.7"
 walkdir = "2.3"
 
 [features]
