@@ -8,7 +8,7 @@ mod ci {
     #[test]
     fn clippy() {
         Command::new("cargo")
-            .args(&[
+            .args([
                 "clippy",
                 "--all-features",
                 "--all-targets",
@@ -25,7 +25,7 @@ mod ci {
     #[test]
     fn dylint() {
         Command::new("cargo")
-            .args(&["dylint", "--all", "--", "--all-features", "--all-targets"])
+            .args(["dylint", "--all", "--", "--all-features", "--all-targets"])
             .env("DYLINT_RUSTFLAGS", "--deny warnings")
             .assert()
             .success();
@@ -54,7 +54,7 @@ mod ci {
         let tempdir = tempdir().unwrap();
 
         Command::new("npm")
-            .args(&["install", "markdown-link-check"])
+            .args(["install", "markdown-link-check"])
             .current_dir(tempdir.path())
             .assert()
             .success();
@@ -62,7 +62,7 @@ mod ci {
         let readme_md = Path::new(env!("CARGO_MANIFEST_DIR")).join("README.md");
 
         Command::new("npx")
-            .args(&["markdown-link-check", &readme_md.to_string_lossy()])
+            .args(["markdown-link-check", &readme_md.to_string_lossy()])
             .current_dir(tempdir.path())
             .assert()
             .success();
@@ -73,13 +73,13 @@ mod ci {
         let tempdir = tempdir().unwrap();
 
         Command::new("npm")
-            .args(&["install", "prettier"])
+            .args(["install", "prettier"])
             .current_dir(tempdir.path())
             .assert()
             .success();
 
         Command::new("npx")
-            .args(&[
+            .args([
                 "prettier",
                 "--check",
                 &format!("{}/**/*.md", env!("CARGO_MANIFEST_DIR")),
@@ -113,7 +113,7 @@ mod ci {
     #[test]
     fn sort() {
         Command::new("cargo")
-            .args(&["sort", "--check"])
+            .args(["sort", "--check"])
             .assert()
             .success();
     }
@@ -121,7 +121,7 @@ mod ci {
     #[test]
     fn udeps() {
         Command::new("cargo")
-            .args(&["+nightly", "udeps", "--all-targets"])
+            .args(["+nightly", "udeps", "--all-targets"])
             .assert()
             .success();
     }
