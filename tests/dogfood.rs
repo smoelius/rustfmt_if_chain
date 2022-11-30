@@ -9,7 +9,7 @@ use walkdir::WalkDir;
 #[test]
 fn dogfood() {
     if Command::new("git")
-        .args(&["diff", "--exit-code"])
+        .args(["diff", "--exit-code"])
         .assert()
         .try_success()
         .is_err()
@@ -43,7 +43,7 @@ fn dogfood() {
         .success();
 
     Command::new("git")
-        .args(&["diff", "--exit-code"])
+        .args(["diff", "--exit-code"])
         .assert()
         .success();
 }

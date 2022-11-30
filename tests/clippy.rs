@@ -12,7 +12,7 @@ fn clippy() {
     let crashes = tempdir.path().join("tests").join("ui").join("crashes");
 
     Command::new("git")
-        .args(&["clone", CLIPPY_URL, &tempdir.path().to_string_lossy()])
+        .args(["clone", CLIPPY_URL, &tempdir.path().to_string_lossy()])
         .assert()
         .success();
 
@@ -49,7 +49,7 @@ fn clippy() {
     writeln!(file, "[workspace]").unwrap();
 
     Command::new("cargo")
-        .args(&["build", "--all-features", "--all-targets"])
+        .args(["build", "--all-features", "--all-targets"])
         .current_dir(tempdir.path())
         .env_remove("RUSTUP_TOOLCHAIN")
         .assert()
