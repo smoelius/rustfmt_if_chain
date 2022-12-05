@@ -16,7 +16,7 @@ fn clippy() {
         .assert()
         .success();
 
-    for entry in WalkDir::new(tempdir.path()) {
+    for entry in WalkDir::new(&tempdir) {
         let entry = entry.unwrap();
         let path = entry.path();
         if path.extension() != Some(OsStr::new("rs")) {
@@ -24,7 +24,7 @@ fn clippy() {
         }
         let assert = Command::cargo_bin("rustfmt_if_chain")
             .unwrap()
-            .current_dir(tempdir.path())
+            .current_dir(&tempdir)
             .env_remove("RUSTUP_TOOLCHAIN")
             .arg(path)
             .assert();
@@ -50,7 +50,7 @@ fn clippy() {
 
     Command::new("cargo")
         .args(["build", "--all-features", "--all-targets"])
-        .current_dir(tempdir.path())
+        .current_dir(&tempdir)
         .env_remove("RUSTUP_TOOLCHAIN")
         .assert()
         .success();
