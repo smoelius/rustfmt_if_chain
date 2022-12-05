@@ -55,7 +55,7 @@ mod ci {
 
         Command::new("npm")
             .args(["install", "markdown-link-check"])
-            .current_dir(tempdir.path())
+            .current_dir(&tempdir)
             .assert()
             .success();
 
@@ -63,7 +63,7 @@ mod ci {
 
         Command::new("npx")
             .args(["markdown-link-check", &readme_md.to_string_lossy()])
-            .current_dir(tempdir.path())
+            .current_dir(&tempdir)
             .assert()
             .success();
     }
@@ -74,7 +74,7 @@ mod ci {
 
         Command::new("npm")
             .args(["install", "prettier"])
-            .current_dir(tempdir.path())
+            .current_dir(&tempdir)
             .assert()
             .success();
 
@@ -86,7 +86,7 @@ mod ci {
                 &format!("{}/**/*.yml", env!("CARGO_MANIFEST_DIR")),
                 &format!("!{}/target/**", env!("CARGO_MANIFEST_DIR")),
             ])
-            .current_dir(tempdir.path())
+            .current_dir(&tempdir)
             .assert()
             .success();
     }
