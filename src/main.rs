@@ -1,4 +1,4 @@
-use anyhow::{ensure, Result};
+use anyhow::{anyhow, ensure, Result};
 use if_chain::if_chain;
 use proc_macro2::{Span, TokenStream, TokenTree};
 use quote::{quote, ToTokens};
@@ -106,7 +106,9 @@ fn rewrite_if_chain(path: &Path) -> Result<Ident> {
 
     let marker = unused_ident(&contents);
 
-    let file = parse_file(&contents)?;
+    let file = parse_file(&contents)
+        .map_err(|error| anyhow!("{} at {:?}", error, error.span().start()))
+        .failed_to(|| format!("parse {:?}", path,))?;
 
     let mut visitor = RewriteVisitor {
         rewriter: Rewriter::new(&contents),
