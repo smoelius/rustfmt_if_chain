@@ -28,14 +28,14 @@ fn clippy() {
             .env_remove("RUSTUP_TOOLCHAIN")
             .arg(path)
             .assert();
+        // smoelius: `needless_return.rs` uses the `do` keyword (see:
+        // https://github.com/rust-lang/rust-clippy/pull/10109), which does not seem to be supported
+        // by `syn`.
         assert!(
             assert.try_success().is_ok()
                 || path.starts_with(&crashes)
-                || path
-                    .file_name()
-                    .unwrap()
-                    .to_string_lossy()
-                    .starts_with("lib."),
+                || path.file_name().unwrap() == "lib.deprecated.rs"
+                || path.file_name().unwrap() == "needless_return.rs",
             "path = {:?}",
             path
         );
