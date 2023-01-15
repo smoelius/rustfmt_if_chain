@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           rustup install nightly
-          rustup component add clippy
+          rustup component add clippy --toolchain nightly
           rustup component add rustfmt
           cargo install cargo-dylint dylint-link || true
           cargo install cargo-license            || true

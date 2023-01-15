@@ -13,10 +13,10 @@ use tempfile::tempdir;
 )]
 #[test]
 fn example_test() {
-    let examples = Path::new(env!("CARGO_MANIFEST_DIR")).join("examples");
-
     const EXAMPLES: [(&str, &str); 2] =
         [("before.rs", "after.rs"), ("let_before.rs", "let_after.rs")];
+
+    let examples = Path::new(env!("CARGO_MANIFEST_DIR")).join("examples");
 
     for (before, after) in EXAMPLES {
         let tempdir = tempdir().unwrap();
