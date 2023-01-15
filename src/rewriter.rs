@@ -65,7 +65,7 @@ impl<'original> Rewriter<'original> {
             let start = self.base + start;
             let end = self.base + end;
             assert_eq!(
-                format!("{:?}", span),
+                format!("{span:?}"),
                 format!("bytes({}..{})", 1 + start, 1 + end),
                 "self = {:#?}, span.start() = {:?}, span.end() = {:?}",
                 self,

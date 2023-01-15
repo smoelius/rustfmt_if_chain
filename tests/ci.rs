@@ -9,6 +9,7 @@ mod ci {
     fn clippy() {
         Command::new("cargo")
             .args([
+                "+nightly",
                 "clippy",
                 "--all-features",
                 "--all-targets",
@@ -45,7 +46,7 @@ mod ci {
         .unwrap()
         .lines()
         {
-            assert!(re.is_match(line), "{:?} does not match", line);
+            assert!(re.is_match(line), "{line:?} does not match");
         }
     }
 

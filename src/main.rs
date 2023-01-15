@@ -42,13 +42,13 @@ fn main() -> Result<()> {
 
         if let Err(error) = rustfmt(&args, Some(path)) {
             if preformat_failure_is_warning {
-                eprintln!("Warning: {}", error);
+                eprintln!("Warning: {error}");
                 continue;
             }
             return Err(error);
         }
 
-        let mut backup = Backup::new(path).failed_to(|| format!("backup {:?}", path))?;
+        let mut backup = Backup::new(path).failed_to(|| format!("backup {path:?}"))?;
 
         let marker = rewrite_if_chain(path)?;
 
@@ -58,7 +58,7 @@ fn main() -> Result<()> {
 
         backup
             .disable()
-            .failed_to(|| format!("disable {:?} backup", path))?;
+            .failed_to(|| format!("disable {path:?} backup"))?;
     }
 
     Ok(())
@@ -97,18 +97,18 @@ error.\
 ";
 
 fn usage() -> ! {
-    println!("{}", USAGE);
+    println!("{USAGE}");
     exit(0);
 }
 
 fn rewrite_if_chain(path: &Path) -> Result<Ident> {
-    let contents = read_to_string(path).failed_to(|| format!("read from {:?}", path))?;
+    let contents = read_to_string(path).failed_to(|| format!("read from {path:?}"))?;
 
     let marker = unused_ident(&contents);
 
     let file = parse_file(&contents)
         .map_err(|error| anyhow!("{} at {:?}", error, error.span().start()))
-        .failed_to(|| format!("parse {:?}", path,))?;
+        .failed_to(|| format!("parse {path:?}",))?;
 
     let mut visitor = RewriteVisitor {
         rewriter: Rewriter::new(&contents),
@@ -121,9 +121,9 @@ fn rewrite_if_chain(path: &Path) -> Result<Ident> {
         .truncate(true)
         .write(true)
         .open(path)
-        .failed_to(|| format!("open {:?}", path))?;
+        .failed_to(|| format!("open {path:?}"))?;
     file.write_all(visitor.rewriter.contents().as_bytes())
-        .failed_to(|| format!("write to {:?}", path))?;
+        .failed_to(|| format!("write to {path:?}"))?;
 
     Ok(marker)
 }
@@ -131,7 +131,7 @@ fn rewrite_if_chain(path: &Path) -> Result<Ident> {
 fn unused_ident(contents: &str) -> Ident {
     let mut i = 0;
     loop {
-        let x = format!("x{}", i);
+        let x = format!("x{i}");
         if !contents.contains(&x) {
             return Ident::new(&x, Span::call_site());
         }
@@ -229,15 +229,15 @@ impl<'rewrite> RewriteVisitor<'rewrite> {
 }
 
 fn restore_if_chain(path: &Path, marker: &Ident) -> Result<()> {
-    let contents = read_to_string(path).failed_to(|| format!("read from {:?}", path))?;
+    let contents = read_to_string(path).failed_to(|| format!("read from {path:?}"))?;
 
     let contents = find_and_replace(
         &contents,
         &[
-            format!(r#"s/(?m)\bfn\s+{}\s*\(\)/if_chain!/g"#, marker),
-            format!(r#"s/(?m)\|\s*{}\s*\|/if_chain!/g"#, marker),
-            format!(r#"s/(?m)\s*\{{\s*{}\s*;\s*}}/;/g"#, marker),
-            format!(r#"s/(?m)\bif\s+{}/then/g"#, marker),
+            format!(r#"s/(?m)\bfn\s+{marker}\s*\(\)/if_chain!/g"#),
+            format!(r#"s/(?m)\|\s*{marker}\s*\|/if_chain!/g"#),
+            format!(r#"s/(?m)\s*\{{\s*{marker}\s*;\s*}}/;/g"#),
+            format!(r#"s/(?m)\bif\s+{marker}/then/g"#),
         ],
     )?;
 
@@ -245,9 +245,9 @@ fn restore_if_chain(path: &Path, marker: &Ident) -> Result<()> {
         .truncate(true)
         .write(true)
         .open(path)
-        .failed_to(|| format!("open {:?}", path))?;
+        .failed_to(|| format!("open {path:?}"))?;
     file.write_all(contents.as_bytes())
-        .failed_to(|| format!("write to {:?}", path))?;
+        .failed_to(|| format!("write to {path:?}"))?;
 
     Ok(())
 }
@@ -260,7 +260,7 @@ fn rustfmt(args: &[String], path: Option<&Path>) -> Result<()> {
     }
     let status = command
         .status()
-        .failed_to(|| format!("get status of {:?}", command))?;
+        .failed_to(|| format!("get status of {command:?}"))?;
 
     ensure!(status.success(), "failed to format {:?}", path);
 
