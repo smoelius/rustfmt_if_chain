@@ -13,8 +13,8 @@ use std::{
 use syn::{
     parse_file,
     spanned::Spanned,
-    visit::{visit_item, Visit},
-    Ident, Item, ItemMacro, Macro,
+    visit::{visit_expr, visit_item, Visit},
+    Expr, ExprMacro, Ident, Item, ItemMacro, Macro, MacroDelimiter,
 };
 
 mod offset_based_rewriter;
@@ -146,17 +146,48 @@ struct RewriteVisitor<'rewrite> {
 
 impl<'ast, 'rewrite> Visit<'ast> for RewriteVisitor<'rewrite> {
     fn visit_item(&mut self, item: &Item) {
-        if let Some((span, tokens)) = match_if_chain(item) {
-            let marker = self.marker;
-            self.rewrite(span, &quote! { fn #marker() }.to_string());
-            self.rewrite_tokens(tokens);
-            return;
+        if_chain! {
+            if let Item::Macro(ItemMacro { mac, .. }) = item;
+            if self.rewrite_macro(mac, true);
+            then {
+                return;
+            }
         }
         visit_item(self, item);
+    }
+
+    fn visit_expr(&mut self, expr: &Expr) {
+        if_chain! {
+            if let Expr::Macro(ExprMacro { mac, .. }) = expr;
+            if self.rewrite_macro(mac, false);
+            then {
+                return;
+            }
+        }
+        visit_expr(self, expr);
     }
 }
 
 impl<'rewrite> RewriteVisitor<'rewrite> {
+    fn rewrite_macro(&mut self, mac: &Macro, is_item: bool) -> bool {
+        if let Some((span, tokens)) = match_if_chain(mac) {
+            let marker = self.marker;
+            self.rewrite(
+                span,
+                &if is_item {
+                    quote! { fn #marker() }
+                } else {
+                    quote! { |#marker| }
+                }
+                .to_string(),
+            );
+            self.rewrite_tokens(tokens);
+            true
+        } else {
+            false
+        }
+    }
+
     fn rewrite_tokens(&mut self, tokens: &TokenStream) {
         let mut iter = tokens.clone().into_iter().peekable();
         let mut curr_ends_let = if let Some(TokenTree::Ident(ident)) = iter.peek() {
@@ -204,6 +235,7 @@ fn restore_if_chain(path: &Path, marker: &Ident) -> Result<()> {
         &contents,
         &[
             format!(r#"s/(?m)\bfn\s+{}\s*\(\)/if_chain!/g"#, marker),
+            format!(r#"s/(?m)\|\s*{}\s*\|/if_chain!/g"#, marker),
             format!(r#"s/(?m)\s*\{{\s*{}\s*;\s*}}/;/g"#, marker),
             format!(r#"s/(?m)\bif\s+{}/then/g"#, marker),
         ],
@@ -235,18 +267,15 @@ fn rustfmt(args: &[String], path: Option<&Path>) -> Result<()> {
     Ok(())
 }
 
-fn match_if_chain(item: &Item) -> Option<(Span, &TokenStream)> {
+fn match_if_chain(mac: &Macro) -> Option<(Span, &TokenStream)> {
     if_chain! {
-        if let Item::Macro(ItemMacro {
-            mac:
-                Macro {
-                    path: path @ syn::Path { segments, .. },
-                    bang_token,
-                    tokens,
-                    ..
-                },
+        if let Macro {
+            path: path @ syn::Path { segments, .. },
+            bang_token,
+            delimiter: MacroDelimiter::Brace(_),
+            tokens,
             ..
-        }) = item;
+        } = mac;
         let segments = segments
             .iter()
             .map(|segment| segment.ident.to_string())

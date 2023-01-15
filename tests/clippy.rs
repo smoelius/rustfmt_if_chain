@@ -9,7 +9,7 @@ const CLIPPY_URL: &str = "https://github.com/rust-lang/rust-clippy";
 fn clippy() {
     let tempdir = tempdir_in(".").unwrap();
 
-    let crashes = tempdir.path().join("tests").join("ui").join("crashes");
+    let crashes = tempdir.path().join("tests/ui/crashes");
 
     Command::new("git")
         .args(["clone", CLIPPY_URL, &tempdir.path().to_string_lossy()])
@@ -19,26 +19,23 @@ fn clippy() {
     for entry in WalkDir::new(&tempdir) {
         let entry = entry.unwrap();
         let path = entry.path();
-        if path.extension() != Some(OsStr::new("rs")) {
+        // smoelius: `needless_return.rs` uses the `do` keyword (see:
+        // https://github.com/rust-lang/rust-clippy/pull/10109), which does not seem to be supported
+        // by `syn`.
+        if path.extension() != Some(OsStr::new("rs"))
+            || path.starts_with(&crashes)
+            || path.file_name() == Some(OsStr::new("lib.deprecated.rs"))
+            || path.file_name() == Some(OsStr::new("needless_return.rs"))
+        {
             continue;
         }
-        let assert = Command::cargo_bin("rustfmt_if_chain")
+        Command::cargo_bin("rustfmt_if_chain")
             .unwrap()
             .current_dir(&tempdir)
             .env_remove("RUSTUP_TOOLCHAIN")
             .arg(path)
-            .assert();
-        // smoelius: `needless_return.rs` uses the `do` keyword (see:
-        // https://github.com/rust-lang/rust-clippy/pull/10109), which does not seem to be supported
-        // by `syn`.
-        assert!(
-            assert.try_success().is_ok()
-                || path.starts_with(&crashes)
-                || path.file_name().unwrap() == "lib.deprecated.rs"
-                || path.file_name().unwrap() == "needless_return.rs",
-            "path = {:?}",
-            path
-        );
+            .assert()
+            .success();
     }
 
     let mut file = OpenOptions::new()

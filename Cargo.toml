@@ -35,6 +35,7 @@ ci = []
 libraries = [
     { git = "https://github.com/trailofbits/dylint", pattern = "examples/general/non_thread_safe_call_in_test" },
     { git = "https://github.com/trailofbits/dylint", pattern = "examples/restriction/collapsible_unwrap" },
+    { git = "https://github.com/trailofbits/dylint", pattern = "examples/restriction/const_path_join" },
     { git = "https://github.com/trailofbits/dylint", pattern = "examples/restriction/question_mark_in_expression" },
     { git = "https://github.com/trailofbits/dylint", pattern = "examples/restriction/try_io_result" },
     { git = "https://github.com/trailofbits/dylint", pattern = "examples/restriction/unnecessary_conversion_for_trait" },

@@ -15,22 +15,27 @@ use tempfile::tempdir;
 fn example_test() {
     let examples = Path::new(env!("CARGO_MANIFEST_DIR")).join("examples");
 
-    let tempdir = tempdir().unwrap();
+    const EXAMPLES: [(&str, &str); 2] =
+        [("before.rs", "after.rs"), ("let_before.rs", "let_after.rs")];
 
-    let tempfile = tempdir.path().join("before.rs");
+    for (before, after) in EXAMPLES {
+        let tempdir = tempdir().unwrap();
 
-    copy(examples.join("before.rs"), &tempfile).unwrap();
+        let tempfile = tempdir.path().join(before);
 
-    Command::cargo_bin("rustfmt_if_chain")
-        .unwrap()
-        .arg(&tempfile)
-        .assert()
-        .success();
+        copy(examples.join(before), &tempfile).unwrap();
 
-    Command::new("diff")
-        .args(&[tempfile, examples.join("after.rs")])
-        .assert()
-        .success();
+        Command::cargo_bin("rustfmt_if_chain")
+            .unwrap()
+            .arg(&tempfile)
+            .assert()
+            .success();
+
+        Command::new("diff")
+            .args(&[tempfile, examples.join(after)])
+            .assert()
+            .success();
+    }
 }
 
 #[cfg(nightly)]
