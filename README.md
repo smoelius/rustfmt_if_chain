@@ -52,7 +52,7 @@ error.
 
 0. Preformat check: `rustfmt` is run on the original source file to verify that it _can_ be formatted.\*
 1. The `if_chain` invocations in the original source file are rewritten according to the following rules, where `x` is an identifier that does not appear elsewhere in the file:
-   - `if_chain!` -> `fn x()`
+   - `if_chain!` -> `fn x()` or `|x|` (depending on whether the invocation is an item or expression)
    - `if ... ;` -> `if ... { x; }`
    - `then` -> `if x`
 2. `rustfmt` is run on the file resulting from step 1.
