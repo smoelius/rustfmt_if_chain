@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5
+
+- Handle `if_chain` invocations in expression positions (e.g., `let x = if_chain! { ... };`) ([#27](https://github.com/smoelius/rustfmt_if_chain/pull/27))
+
 ## 0.1.4
 
 - An incorrect internal check was causing `rustfmt_if_chain` to panic when applied to multiple files. The check is now corrected and guarded by a feature. ([0fa6a80](https://github.com/smoelius/rustfmt_if_chain/commit/0fa6a80328de648729261496bc930270acbc2b48))
