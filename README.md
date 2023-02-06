@@ -12,13 +12,13 @@ cargo install rustfmt_if_chain
 Usage: rustfmt_if_chain [ARGS]
 
 Arguments ending with `.rs` are considered source files and are
-formatted. All other arguments are forwarded to `rustfmt`, with one
-exception.
+formatted. All other arguments are forwarded to `rustfmt`, with
+one exception.
 
 The one argument not forwarded to `rustfmt` is
-`--preformat-failure-is-warning`. If this option is passed and `rustfmt`
-fails on an unmodified source file, a warning results instead of an
-error.
+`--preformat-failure-is-warning`. If this option is passed and
+`rustfmt` fails on an unmodified source file, a warning results
+instead of an error.
 ```
 
 ## Example

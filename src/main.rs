@@ -87,13 +87,13 @@ const USAGE: &str = "\
 Usage: rustfmt_if_chain [ARGS]
 
 Arguments ending with `.rs` are considered source files and are
-formatted. All other arguments are forwarded to `rustfmt`, with one
-exception.
+formatted. All other arguments are forwarded to `rustfmt`, with
+one exception.
 
 The one argument not forwarded to `rustfmt` is
-`--preformat-failure-is-warning`. If this option is passed and `rustfmt`
-fails on an unmodified source file, a warning results instead of an
-error.\
+`--preformat-failure-is-warning`. If this option is passed and
+`rustfmt` fails on an unmodified source file, a warning results
+instead of an error.\
 ";
 
 fn usage() -> ! {
@@ -300,15 +300,16 @@ fn match_if_chain(mac: &Macro) -> Option<(Span, &TokenStream)> {
 
 #[test]
 fn usage_wrapping() {
+    let re = regex::Regex::new(r"(?m)^.{65,}$").unwrap();
     let unwrapped =
         find_and_replace(USAGE, [r#"s/(?P<left>\S)\s(?P<right>\S)/$left $right/g"#]).unwrap();
     let mut prev = String::new();
     let mut rewrapped = unwrapped.to_string();
-    while prev != rewrapped {
+    while re.is_match(&rewrapped) && prev != rewrapped {
         prev = rewrapped;
         rewrapped = find_and_replace(
             &prev,
-            [r#"s/(?m)^(?P<line>.{0,72})\s/$line
+            [r#"s/(?m)^(?P<line>.{0,64})\s/$line
 /g"#],
         )
         .unwrap()
