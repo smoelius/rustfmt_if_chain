@@ -22,8 +22,12 @@ fn clippy() {
         // smoelius: `needless_return.rs` uses the `do` keyword (see:
         // https://github.com/rust-lang/rust-clippy/pull/10109), which does not seem to be supported
         // by `syn`.
+        // smoelius: Something weird is going on with `clippy_lints/src/derive.rs`. Remove the
+        // exception once the following is resolved:
+        // https://github.com/rust-lang/rustfmt/issues/5700
         if path.extension() != Some(OsStr::new("rs"))
             || path.starts_with(&crashes)
+            || path.file_name() == Some(OsStr::new("derive.rs"))
             || path.file_name() == Some(OsStr::new("lib.deprecated.rs"))
             || path.file_name() == Some(OsStr::new("needless_return.rs"))
         {
