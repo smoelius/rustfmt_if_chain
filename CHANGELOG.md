@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6
+
+- Wrap help to 64 columns ([#32](https://github.com/smoelius/rustfmt_if_chain/pull/32))
+- Update `tempfile` to version 3.4.0 ([6f7812b](https://github.com/smoelius/rustfmt_if_chain/commit/6f7812b837ffccd41ff417c783a0ed56f71c22a9))
+
 ## 0.1.5
 
 - Handle `if_chain` invocations in expression positions (e.g., `let x = if_chain! { ... };`) ([#27](https://github.com/smoelius/rustfmt_if_chain/pull/27))
