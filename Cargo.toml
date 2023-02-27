@@ -15,7 +15,7 @@ proc-macro2 = { version = "1.0", features = ["span-locations"] }
 quote = "1.0"
 sedregex = "0.2"
 syn = { version = "1.0", features = ["full", "visit"] }
-tempfile = "3.3"
+tempfile = "3.4"
 
 [build-dependencies]
 rustc_version = "0.4"
