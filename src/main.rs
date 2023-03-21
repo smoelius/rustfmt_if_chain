@@ -13,8 +13,8 @@ use std::{
 use syn::{
     parse_file,
     spanned::Spanned,
-    visit::{visit_expr, visit_item, Visit},
-    Expr, ExprMacro, Ident, Item, ItemMacro, Macro, MacroDelimiter,
+    visit::{visit_expr_macro, visit_item_macro, visit_stmt_macro, Visit},
+    ExprMacro, Ident, ItemMacro, Macro, MacroDelimiter, StmtMacro,
 };
 
 mod offset_based_rewriter;
@@ -145,26 +145,25 @@ struct RewriteVisitor<'rewrite> {
 }
 
 impl<'ast, 'rewrite> Visit<'ast> for RewriteVisitor<'rewrite> {
-    fn visit_item(&mut self, item: &Item) {
-        if_chain! {
-            if let Item::Macro(ItemMacro { mac, .. }) = item;
-            if self.rewrite_macro(mac, true);
-            then {
-                return;
-            }
+    fn visit_item_macro(&mut self, item_macro: &ItemMacro) {
+        if self.rewrite_macro(&item_macro.mac, true) {
+            return;
         }
-        visit_item(self, item);
+        visit_item_macro(self, item_macro);
     }
 
-    fn visit_expr(&mut self, expr: &Expr) {
-        if_chain! {
-            if let Expr::Macro(ExprMacro { mac, .. }) = expr;
-            if self.rewrite_macro(mac, false);
-            then {
-                return;
-            }
+    fn visit_stmt_macro(&mut self, stmt_macro: &StmtMacro) {
+        if self.rewrite_macro(&stmt_macro.mac, true) {
+            return;
         }
-        visit_expr(self, expr);
+        visit_stmt_macro(self, stmt_macro);
+    }
+
+    fn visit_expr_macro(&mut self, expr_macro: &ExprMacro) {
+        if self.rewrite_macro(&expr_macro.mac, false) {
+            return;
+        }
+        visit_expr_macro(self, expr_macro);
     }
 }
 
