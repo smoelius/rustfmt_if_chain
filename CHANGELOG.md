@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7
+
+- Upgrade to `syn` 2.0 ([#39](https://github.com/smoelius/rustfmt_if_chain/pull/39))
+
 ## 0.1.6
 
 - Wrap help to 64 columns ([#32](https://github.com/smoelius/rustfmt_if_chain/pull/32))
