@@ -10,6 +10,7 @@ autoexamples = false
 
 [dependencies]
 anyhow = "1.0"
+cast_checks = "0.1"
 if_chain = "1.0"
 proc-macro2 = { version = "1.0", features = ["span-locations"] }
 quote = "1.0"
@@ -26,6 +27,7 @@ regex = "1.7"
 walkdir = "2.3"
 
 [features]
+all-checks = ["check-offsets", "check-rewrites", "check-spans"]
 check-offsets = []
 check-rewrites = []
 check-spans = []

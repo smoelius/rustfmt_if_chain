@@ -1,3 +1,5 @@
+#![cfg_attr(nightly, feature(custom_inner_attributes, proc_macro_hygiene))]
+
 use anyhow::{anyhow, ensure, Result};
 use if_chain::if_chain;
 use proc_macro2::{Span, TokenStream, TokenTree};
