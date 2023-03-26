@@ -1,3 +1,5 @@
+#![cfg_attr(nightly, cast_checks::enable)]
+
 use super::Interface;
 
 #[derive(Debug)]

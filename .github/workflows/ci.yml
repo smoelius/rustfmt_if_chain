@@ -35,9 +35,12 @@ jobs:
 
       - name: Install dependencies
         run: |
+          rm -f "$HOME"/.cargo/bin/cargo-fmt
+          rm -f "$HOME"/.cargo/bin/rustfmt
           rustup install nightly
           rustup component add clippy --toolchain nightly
           rustup component add rustfmt
+          rustup component add rustfmt --toolchain nightly
           cargo install cargo-dylint dylint-link || true
           cargo install cargo-license            || true
           cargo install cargo-sort               || true
@@ -47,4 +50,7 @@ jobs:
         run: cargo test --features=ci
 
       - name: Test with checks
-        run: cargo test --features=check-offsets,check-rewrites,check-spans
+        run: cargo +nightly test --features=all-checks
+        env:
+          CAST_CHECKS_LOG: 1
+          RUSTFLAGS: --cfg procmacro2_semver_exempt
