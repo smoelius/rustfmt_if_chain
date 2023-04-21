@@ -11,12 +11,12 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  CARGO_TERM_COLOR: always
+
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    env:
-      CARGO_TERM_COLOR: always
 
     steps:
       - uses: actions/checkout@v3
