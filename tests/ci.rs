@@ -122,6 +122,15 @@ mod ci {
     }
 
     #[test]
+    fn supply_chain() {
+        Command::new("cargo")
+            .args(["supply-chain", "publishers", "--no-dev"])
+            .assert()
+            .success()
+            .stdout(predicates::path::eq_file("tests/publishers.txt"));
+    }
+
+    #[test]
     fn udeps() {
         Command::new("cargo")
             .args(["+nightly", "udeps", "--all-targets"])
