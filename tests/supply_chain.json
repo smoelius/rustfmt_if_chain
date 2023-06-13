@@ -18,6 +18,22 @@
         "name": "David Tolnay"
       }
     ],
+    "autocfg": [
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/36186?v=4",
+        "id": 539,
+        "kind": "user",
+        "login": "cuviper",
+        "name": "Josh Stone"
+      },
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/1711539?v=4",
+        "id": 2699,
+        "kind": "user",
+        "login": "matklad",
+        "name": "Alex Kladov"
+      }
+    ],
     "bitflags": [
       {
         "avatar": "https://avatars.githubusercontent.com/u/64996?v=4",
