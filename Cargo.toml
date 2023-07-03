@@ -23,6 +23,7 @@ rustc_version = "0.4"
 
 [dev-dependencies]
 assert_cmd = "2.0"
+ctor = "0.2"
 predicates = "3.0"
 regex = "1.8"
 serde_json = "1.0"

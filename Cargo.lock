@@ -125,6 +125,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "ctor"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eed5fff0d93c7559121e9c72bf9c242295869396255071ff2cb1617147b608c5"
+dependencies = [
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "difflib"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -376,6 +386,7 @@ dependencies = [
  "anyhow",
  "assert_cmd",
  "cast_checks",
+ "ctor",
  "if_chain",
  "predicates",
  "proc-macro2",

@@ -4,11 +4,17 @@ use assert_cmd::Command;
 use regex::Regex;
 use similar_asserts::SimpleDiff;
 use std::{
+    env::remove_var,
     fs::{read_to_string, write},
     path::Path,
     str::FromStr,
 };
 use tempfile::tempdir;
+
+#[ctor::ctor]
+fn initialize() {
+    remove_var("CARGO_TERM_COLOR");
+}
 
 #[test]
 fn clippy() {
