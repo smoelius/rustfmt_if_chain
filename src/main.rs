@@ -303,15 +303,15 @@ fn match_if_chain(mac: &Macro) -> Option<(Span, &TokenStream)> {
 fn usage_wrapping() {
     let re = regex::Regex::new(r"(?m)^.{65,}$").unwrap();
     let unwrapped =
-        find_and_replace(USAGE, [r#"s/(?P<left>\S)\s(?P<right>\S)/$left $right/g"#]).unwrap();
+        find_and_replace(USAGE, [r"s/(?P<left>\S)\s(?P<right>\S)/$left $right/g"]).unwrap();
     let mut prev = String::new();
     let mut rewrapped = unwrapped.to_string();
     while re.is_match(&rewrapped) && prev != rewrapped {
         prev = rewrapped;
         rewrapped = find_and_replace(
             &prev,
-            [r#"s/(?m)^(?P<line>.{0,64})\s/$line
-/g"#],
+            [r"s/(?m)^(?P<line>.{0,64})\s/$line
+/g"],
         )
         .unwrap()
         .to_string();
