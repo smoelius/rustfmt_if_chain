@@ -35,7 +35,7 @@ jobs:
             target/dylint/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Install dependencies
+      - name: Install tools
         run: |
           rm -f "$HOME"/.cargo/bin/cargo-fmt
           rm -f "$HOME"/.cargo/bin/rustfmt
