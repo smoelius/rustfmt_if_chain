@@ -18,22 +18,6 @@
         "name": "David Tolnay"
       }
     ],
-    "autocfg": [
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/36186?v=4",
-        "id": 539,
-        "kind": "user",
-        "login": "cuviper",
-        "name": "Josh Stone"
-      },
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/1711539?v=4",
-        "id": 2699,
-        "kind": "user",
-        "login": "matklad",
-        "name": "Alex Kladov"
-      }
-    ],
     "bitflags": [
       {
         "avatar": "https://avatars.githubusercontent.com/u/64996?v=4",
@@ -171,22 +155,6 @@
         "name": "Taiki Endo"
       }
     ],
-    "hermit-abi": [
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/5888473?v=4",
-        "id": 29348,
-        "kind": "user",
-        "login": "stlankes",
-        "name": "Stefan Lankes"
-      },
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/28776973?v=4",
-        "id": 91569,
-        "kind": "user",
-        "login": "mkroening",
-        "name": "Martin Kröning"
-      }
-    ],
     "if_chain": [
       {
         "avatar": "https://avatars.githubusercontent.com/u/1572323?v=4",
@@ -194,24 +162,6 @@
         "kind": "user",
         "login": "lambda-fairy",
         "name": "Chris Wong"
-      }
-    ],
-    "instant": [
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/1734958?v=4",
-        "id": 86,
-        "kind": "user",
-        "login": "sebcrozet",
-        "name": "Sébastien Crozet"
-      }
-    ],
-    "io-lifetimes": [
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/4503403?v=4",
-        "id": 6825,
-        "kind": "user",
-        "login": "sunfishcode",
-        "name": "Dan Gohman"
       }
     ],
     "itoa": [
