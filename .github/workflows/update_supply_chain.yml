@@ -1,0 +1,22 @@
+name: Update supply chain
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update supply_chain.json
+        run: cargo test --test ci --features=ci supply_chain
+        env:
+          BLESS: 1
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: "Update supply_chain.json"
+          branch-suffix: random
