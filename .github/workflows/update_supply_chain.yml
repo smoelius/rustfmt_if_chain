@@ -10,8 +10,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # smoelius: The next use of `actions/cache` should match what is in ci.yml.
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            ~/.dylint_drivers/
+            ~/.rustup/toolchains/
+            target/dylint/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install cargo-supply-chain
+        run: cargo install cargo-supply-chain || true
+
       - name: Update supply_chain.json
-        run: cargo test --test ci --features=ci supply_chain
+        run: cargo test --features=ci --test ci supply_chain
         env:
           BLESS: 1
 
