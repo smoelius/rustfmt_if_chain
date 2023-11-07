@@ -17,6 +17,8 @@ const EXCEPTIONS: &[&str] = &[
     "clippy_lints/src/derive.rs",
     // ???
     "clippy_lints/src/lib.deprecated.rs",
+    // ???
+    "clippy_lints/src/same_name_method.rs",
     // smoelius: The line causing problems in clippy_utils/src/consts.rs contains a `matches!`
     // invocation. So I suspect the underlying cause is the same as that affecting
     // clippy_lints/src/derive.rs.
