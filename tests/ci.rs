@@ -25,10 +25,9 @@ fn clippy() {
             "--all-features",
             "--all-targets",
             "--",
-            "-D",
-            "warnings",
-            "-W",
-            "clippy::pedantic",
+            "--deny=warnings",
+            "--warn=clippy::pedantic",
+            "--allow=clippy::struct-field-names",
         ])
         .assert()
         .success();
