@@ -70,7 +70,6 @@ fn clippy() {
 
     let mut file = OpenOptions::new()
         .append(true)
-        .write(true)
         .open(tempdir.path().join("Cargo.toml"))
         .unwrap();
     writeln!(file, "[workspace]").unwrap();
