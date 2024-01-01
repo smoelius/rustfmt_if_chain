@@ -82,22 +82,6 @@
         "name": "Samuel Moelius"
       }
     ],
-    "cc": [
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/5430905?v=4",
-        "id": 11,
-        "kind": "team",
-        "login": "github:rust-lang:libs",
-        "name": "libs"
-      },
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/53090244?v=4",
-        "id": 55123,
-        "kind": "user",
-        "login": "rust-lang-owner",
-        "name": null
-      }
-    ],
     "cfg-if": [
       {
         "avatar": "https://avatars.githubusercontent.com/u/64996?v=4",
@@ -135,15 +119,6 @@
         "kind": "user",
         "login": "sunfishcode",
         "name": "Dan Gohman"
-      }
-    ],
-    "errno-dragonfly": [
-      {
-        "avatar": "https://avatars0.githubusercontent.com/u/34112?v=4",
-        "id": 747,
-        "kind": "user",
-        "login": "mneumann",
-        "name": "Michael Neumann"
       }
     ],
     "fastrand": [
