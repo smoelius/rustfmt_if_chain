@@ -409,6 +409,22 @@
         "name": "publish"
       }
     ],
+    "serde_derive": [
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/1940490?v=4",
+        "id": 3618,
+        "kind": "user",
+        "login": "dtolnay",
+        "name": "David Tolnay"
+      },
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/11965399?v=4",
+        "id": 8138,
+        "kind": "team",
+        "login": "github:serde-rs:publish",
+        "name": "publish"
+      }
+    ],
     "syn": [
       {
         "avatar": "https://avatars.githubusercontent.com/u/1940490?v=4",
