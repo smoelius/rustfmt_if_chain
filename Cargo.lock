@@ -75,9 +75,9 @@ dependencies = [
 
 [[package]]
 name = "cast_checks"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c3f815b4566aa2e6fd0c2eb9cb608a80224c73766e0815c293d32ecc8f7e73e"
+checksum = "a972b2e7af7903f86a571f50d30d4646fb750ccb294d2a79c3646b1814e503e0"
 dependencies = [
  "cast_checks_convert",
  "cast_checks_macro",
@@ -85,15 +85,15 @@ dependencies = [
 
 [[package]]
 name = "cast_checks_convert"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c1fb804eacc2117e7a47a1da6d287034a81093ec3cc05e273eff27e17891c1f3"
+checksum = "2794a887efab1c03c774eb442a710bd37a605a65fb0a608472b93a0be2ba539b"
 
 [[package]]
 name = "cast_checks_macro"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8ef6ed78307da74fe7f6e78e63676fda30a90e56b15f22f0803e6941535a8fd"
+checksum = "76e4ff263730893dde55b2baa124850725411705dc55e79133e6a94e1dca24cc"
 dependencies = [
  "proc-macro2",
  "quote",
