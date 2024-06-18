@@ -47,14 +47,14 @@ impl<'original> Interface for CachingOffsetCalculator<'original> {
         if self.line_column.line < line_column.line {
             let suffix = chars.collect::<String>();
             self.offset += suffix.as_bytes().len() + 1;
-            self.ascii &= suffix.chars().all(|ch| ch.is_ascii());
+            self.ascii &= suffix.is_ascii();
             self.line_column.line += 1;
             self.line_column.column = 0;
 
             while self.line_column.line < line_column.line {
                 let line = self.lines.next().unwrap();
                 self.offset += line.as_bytes().len() + 1;
-                self.ascii &= line.chars().all(|ch| ch.is_ascii());
+                self.ascii &= line.is_ascii();
                 self.line_column.line += 1;
                 self.line_column.column = 0;
             }
@@ -66,7 +66,7 @@ impl<'original> Interface for CachingOffsetCalculator<'original> {
             .take(line_column.column - self.line_column.column)
             .collect::<String>();
         self.offset += prefix.as_bytes().len();
-        self.ascii &= prefix.chars().all(|ch| ch.is_ascii());
+        self.ascii &= prefix.is_ascii();
         self.line_column.column = line_column.column;
 
         self.chars = Some(chars);
@@ -88,7 +88,7 @@ impl<'original> Interface for StatelessOffsetCalculator<'original> {
         for _ in 1..line_column.line {
             let line = lines.next().unwrap();
             offset += line.as_bytes().len() + 1;
-            ascii &= line.chars().all(|ch| ch.is_ascii());
+            ascii &= line.is_ascii();
         }
 
         let prefix = lines
@@ -98,7 +98,7 @@ impl<'original> Interface for StatelessOffsetCalculator<'original> {
             .take(line_column.column)
             .collect::<String>();
         offset += prefix.as_bytes().len();
-        ascii &= prefix.chars().all(|ch| ch.is_ascii());
+        ascii &= prefix.is_ascii();
 
         (offset, ascii)
     }
