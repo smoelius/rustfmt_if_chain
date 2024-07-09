@@ -37,6 +37,10 @@ check-rewrites = []
 check-spans = []
 ci = []
 
+[lints.rust.unexpected_cfgs]
+level = "deny"
+check-cfg = ["cfg(dylint_lib, values(any()))", "cfg(nightly)"]
+
 [workspace.metadata.dylint]
 libraries = [
     { git = "https://github.com/trailofbits/dylint", pattern = "examples/general/non_thread_safe_call_in_test" },
