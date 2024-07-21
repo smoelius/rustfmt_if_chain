@@ -67,7 +67,7 @@ impl Interface for EagerRewriter {
 
         self.rewritten = String::from_utf8(prefix.to_vec()).expect("`prefix` is not valid UTF-8")
             + replacement
-            + &String::from_utf8(suffix.to_vec()).expect("`suffix` is not valid UTF-8");
+            + std::str::from_utf8(suffix).expect("`suffix` is not valid UTF-8");
 
         self.delta += replacement.as_bytes().len() as isize - end as isize + start as isize;
     }
