@@ -74,33 +74,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cast_checks"
-version = "0.1.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a972b2e7af7903f86a571f50d30d4646fb750ccb294d2a79c3646b1814e503e0"
-dependencies = [
- "cast_checks_convert",
- "cast_checks_macro",
-]
-
-[[package]]
-name = "cast_checks_convert"
-version = "0.1.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2794a887efab1c03c774eb442a710bd37a605a65fb0a608472b93a0be2ba539b"
-
-[[package]]
-name = "cast_checks_macro"
-version = "0.1.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "76e4ff263730893dde55b2baa124850725411705dc55e79133e6a94e1dca24cc"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -312,6 +285,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c08c74e62047bb2de4ff487b251e4a92e24f48745648451635cec7d591162d9f"
 
 [[package]]
+name = "rewriter"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "81a417374326652efe672e1b1b07a207193f10059e3d55c5cf298248def47c52"
+dependencies = [
+ "proc-macro2",
+ "tempfile",
+]
+
+[[package]]
 name = "rustc_version"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -326,13 +309,13 @@ version = "0.1.7"
 dependencies = [
  "anyhow",
  "assert_cmd",
- "cast_checks",
  "ctor",
  "if_chain",
  "predicates",
  "proc-macro2",
  "quote",
  "regex",
+ "rewriter",
  "rustc_version",
  "sedregex",
  "serde_json",
