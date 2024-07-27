@@ -1,9 +1,8 @@
-#![cfg_attr(nightly, feature(custom_inner_attributes, proc_macro_hygiene))]
-
 use anyhow::{anyhow, ensure, Result};
 use if_chain::if_chain;
 use proc_macro2::{Span, TokenStream, TokenTree};
 use quote::{quote, ToTokens};
+use rewriter::{Backup, Rewriter};
 use sedregex::find_and_replace;
 use std::{
     env,
@@ -19,18 +18,8 @@ use syn::{
     ExprMacro, Ident, ItemMacro, Macro, MacroDelimiter, StmtMacro,
 };
 
-mod offset_based_rewriter;
-
-mod offset_calculator;
-
-mod backup;
-use backup::Backup;
-
 mod failed_to;
 use failed_to::FailedTo;
-
-mod rewriter;
-use rewriter::Rewriter;
 
 fn main() -> Result<()> {
     let (args, paths, preformat_failure_is_warning) = process_args();
@@ -225,7 +214,7 @@ impl<'rewrite> RewriteVisitor<'rewrite> {
     }
 
     fn rewrite(&mut self, span: Span, replacement: &str) {
-        self.rewriter.rewrite(span, replacement);
+        self.rewriter.rewrite(&span, replacement);
     }
 }
 

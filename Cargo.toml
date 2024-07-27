@@ -10,10 +10,10 @@ autoexamples = false
 
 [dependencies]
 anyhow = "1.0"
-cast_checks = "0.1"
 if_chain = "1.0"
 proc-macro2 = { version = "1.0", features = ["span-locations"] }
 quote = "1.0"
+rewriter = { version = "0.1", features = ["proc-macro2-span"] }
 sedregex = "0.2"
 syn = { version = "2.0", features = ["full", "visit"] }
 tempfile = "3.10"
@@ -31,10 +31,6 @@ similar-asserts = "1.5"
 walkdir = "2.5"
 
 [features]
-all-checks = ["check-offsets", "check-rewrites", "check-spans"]
-check-offsets = []
-check-rewrites = []
-check-spans = []
 ci = []
 
 [lints.rust.unexpected_cfgs]

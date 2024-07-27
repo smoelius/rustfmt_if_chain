@@ -53,7 +53,4 @@ jobs:
         run: cargo test --features=ci
 
       - name: Test with checks
-        run: cargo +nightly test --features=all-checks
-        env:
-          CAST_CHECKS_LOG: 1
-          RUSTFLAGS: --cfg procmacro2_semver_exempt
+        run: cargo test --features=rewriter/check-offsets,rewriter/check-rewrites
