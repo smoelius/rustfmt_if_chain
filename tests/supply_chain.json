@@ -55,33 +55,6 @@
         "name": "owners"
       }
     ],
-    "cast_checks": [
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/35515885?v=4",
-        "id": 64944,
-        "kind": "user",
-        "login": "smoelius",
-        "name": "Samuel Moelius"
-      }
-    ],
-    "cast_checks_convert": [
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/35515885?v=4",
-        "id": 64944,
-        "kind": "user",
-        "login": "smoelius",
-        "name": "Samuel Moelius"
-      }
-    ],
-    "cast_checks_macro": [
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/35515885?v=4",
-        "id": 64944,
-        "kind": "user",
-        "login": "smoelius",
-        "name": "Samuel Moelius"
-      }
-    ],
     "cfg-if": [
       {
         "avatar": "https://avatars.githubusercontent.com/u/64996?v=4",
@@ -332,6 +305,15 @@
         "kind": "user",
         "login": "BurntSushi",
         "name": "Andrew Gallant"
+      }
+    ],
+    "rewriter": [
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/35515885?v=4",
+        "id": 64944,
+        "kind": "user",
+        "login": "smoelius",
+        "name": "Samuel Moelius"
       }
     ],
     "rustc_version": [
