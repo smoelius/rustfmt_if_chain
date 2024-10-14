@@ -135,7 +135,7 @@ struct RewriteVisitor<'rewrite> {
     marker: &'rewrite Ident,
 }
 
-impl<'ast, 'rewrite> Visit<'ast> for RewriteVisitor<'rewrite> {
+impl Visit<'_> for RewriteVisitor<'_> {
     fn visit_item_macro(&mut self, item_macro: &ItemMacro) {
         if self.rewrite_macro(&item_macro.mac, true) {
             return;
@@ -158,7 +158,7 @@ impl<'ast, 'rewrite> Visit<'ast> for RewriteVisitor<'rewrite> {
     }
 }
 
-impl<'rewrite> RewriteVisitor<'rewrite> {
+impl RewriteVisitor<'_> {
     fn rewrite_macro(&mut self, mac: &Macro, is_item: bool) -> bool {
         if let Some((span, tokens)) = match_if_chain(mac) {
             let marker = self.marker;
