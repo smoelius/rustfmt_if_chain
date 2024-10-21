@@ -224,10 +224,10 @@ fn restore_if_chain(path: &Path, marker: &Ident) -> Result<()> {
     let contents = find_and_replace(
         &contents,
         &[
-            format!(r#"s/(?m)\bfn\s+{marker}\s*\(\)/if_chain!/g"#),
-            format!(r#"s/(?m)\|\s*{marker}\s*\|/if_chain!/g"#),
-            format!(r#"s/(?m)\s*\{{\s*{marker}\s*;\s*}}/;/g"#),
-            format!(r#"s/(?m)\bif\s+{marker}/then/g"#),
+            format!(r"s/(?m)\bfn\s+{marker}\s*\(\)/if_chain!/g"),
+            format!(r"s/(?m)\|\s*{marker}\s*\|/if_chain!/g"),
+            format!(r"s/(?m)\s*\{{\s*{marker}\s*;\s*}}/;/g"),
+            format!(r"s/(?m)\bif\s+{marker}/then/g"),
         ],
     )?;
 
