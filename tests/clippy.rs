@@ -38,6 +38,8 @@ const EXCEPTIONS: &[&str] = &[
     "tests/ui/no_effect.rs",
     // ???
     "tests/ui/unnecessary_operation.rs",
+    // smoelius: "expected identifier or integer at LineColumn { line: 32, column: 6 }"
+    "tests/ui/unnecessary_semicolon.rs",
 ];
 
 #[test]
