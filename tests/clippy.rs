@@ -36,6 +36,8 @@ const EXCEPTIONS: &[&str] = &[
     //
     // This is the reason for the boxed_local.rs, no_effect.rs, and unnecessary_operation.rs exceptions.
     "tests/ui/no_effect.rs",
+    // smoelius: "expected one of `!`, `(`, `+`, `,`, `::`, `<`, or `>`, found `)`"
+    "tests/ui/syntax-error-recovery/non_expressive_names_error_recovery.rs",
     // ???
     "tests/ui/unnecessary_operation.rs",
     // smoelius: "expected identifier or integer at LineColumn { line: 32, column: 6 }"
