@@ -1,7 +1,7 @@
 use assert_cmd::Command;
 use std::{
     ffi::OsStr,
-    io::{stderr, Write},
+    io::{Write, stderr},
     path::{Path, PathBuf},
 };
 use walkdir::WalkDir;
@@ -22,9 +22,11 @@ fn dogfood() {
     let paths = paths();
 
     // smoelius: Sanity.
-    assert!(paths
-        .iter()
-        .any(|path| path.file_name().unwrap() == "main.rs"));
+    assert!(
+        paths
+            .iter()
+            .any(|path| path.file_name().unwrap() == "main.rs")
+    );
 
     // smoelius: Format files individually.
     for path in &paths {
