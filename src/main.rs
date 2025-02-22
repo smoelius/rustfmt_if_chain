@@ -1,21 +1,20 @@
-use anyhow::{anyhow, ensure, Result};
+use anyhow::{Result, anyhow, ensure};
 use if_chain::if_chain;
 use proc_macro2::{Span, TokenStream, TokenTree};
-use quote::{quote, ToTokens};
+use quote::{ToTokens, quote};
 use rewriter::{Backup, Rewriter};
 use sedregex::find_and_replace;
 use std::{
     env,
-    fs::{read_to_string, OpenOptions},
+    fs::{OpenOptions, read_to_string},
     io::Write,
     path::Path,
-    process::{exit, Command},
+    process::{Command, exit},
 };
 use syn::{
-    parse_file,
+    ExprMacro, Ident, ItemMacro, Macro, MacroDelimiter, StmtMacro, parse_file,
     spanned::Spanned,
-    visit::{visit_expr_macro, visit_item_macro, visit_stmt_macro, Visit},
-    ExprMacro, Ident, ItemMacro, Macro, MacroDelimiter, StmtMacro,
+    visit::{Visit, visit_expr_macro, visit_item_macro, visit_stmt_macro},
 };
 
 mod failed_to;
