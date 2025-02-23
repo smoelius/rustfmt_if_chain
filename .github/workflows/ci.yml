@@ -39,6 +39,7 @@ jobs:
         run: |
           rm -f "$HOME"/.cargo/bin/cargo-fmt
           rm -f "$HOME"/.cargo/bin/rustfmt
+          rustup update
           rustup install nightly
           rustup component add clippy --toolchain nightly
           rustup component add rustfmt
