@@ -38,7 +38,7 @@ fn main() -> Result<()> {
             return Err(error);
         }
 
-        let mut backup = Backup::new(path).failed_to(|| format!("backup {path:?}"))?;
+        let mut backup = Backup::new(path).failed_to(|| format!("backup `{}`", path.display()))?;
 
         let marker = rewrite_if_chain(path)?;
 
@@ -48,7 +48,7 @@ fn main() -> Result<()> {
 
         backup
             .disable()
-            .failed_to(|| format!("disable {path:?} backup"))?;
+            .failed_to(|| format!("disable `{}` backup", path.display()))?;
     }
 
     Ok(())
@@ -92,13 +92,13 @@ fn usage() -> ! {
 }
 
 fn rewrite_if_chain(path: &Path) -> Result<Ident> {
-    let contents = read_to_string(path).failed_to(|| format!("read from {path:?}"))?;
+    let contents = read_to_string(path).failed_to(|| format!("read from `{}`", path.display()))?;
 
     let marker = unused_ident(&contents);
 
     let file = parse_file(&contents)
         .map_err(|error| anyhow!("{} at {:?}", error, error.span().start()))
-        .failed_to(|| format!("parse {path:?}",))?;
+        .failed_to(|| format!("parse `{}`", path.display()))?;
 
     let mut visitor = RewriteVisitor {
         rewriter: Rewriter::new(&contents),
@@ -111,9 +111,9 @@ fn rewrite_if_chain(path: &Path) -> Result<Ident> {
         .truncate(true)
         .write(true)
         .open(path)
-        .failed_to(|| format!("open {path:?}"))?;
+        .failed_to(|| format!("open `{}`", path.display()))?;
     file.write_all(visitor.rewriter.contents().as_bytes())
-        .failed_to(|| format!("write to {path:?}"))?;
+        .failed_to(|| format!("write to `{}`", path.display()))?;
 
     Ok(marker)
 }
@@ -218,7 +218,7 @@ impl RewriteVisitor<'_> {
 }
 
 fn restore_if_chain(path: &Path, marker: &Ident) -> Result<()> {
-    let contents = read_to_string(path).failed_to(|| format!("read from {path:?}"))?;
+    let contents = read_to_string(path).failed_to(|| format!("read from `{}`", path.display()))?;
 
     let contents = find_and_replace(
         &contents,
@@ -234,9 +234,9 @@ fn restore_if_chain(path: &Path, marker: &Ident) -> Result<()> {
         .truncate(true)
         .write(true)
         .open(path)
-        .failed_to(|| format!("open {path:?}"))?;
+        .failed_to(|| format!("open `{}`", path.display()))?;
     file.write_all(contents.as_bytes())
-        .failed_to(|| format!("write to {path:?}"))?;
+        .failed_to(|| format!("write to `{}`", path.display()))?;
 
     Ok(())
 }
