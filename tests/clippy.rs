@@ -5,8 +5,10 @@ use walkdir::WalkDir;
 
 #[ctor::ctor]
 fn initialize() {
-    remove_var("CARGO_TERM_COLOR");
-    remove_var("RUSTUP_TOOLCHAIN");
+    unsafe {
+        remove_var("CARGO_TERM_COLOR");
+        remove_var("RUSTUP_TOOLCHAIN");
+    }
 }
 
 const CLIPPY_URL: &str = "https://github.com/rust-lang/rust-clippy";
