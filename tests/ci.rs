@@ -1,5 +1,3 @@
-#![cfg(feature = "ci")]
-
 use assert_cmd::Command;
 use regex::Regex;
 use similar_asserts::SimpleDiff;

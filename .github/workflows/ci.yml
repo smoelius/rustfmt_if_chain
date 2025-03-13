@@ -51,7 +51,7 @@ jobs:
           cargo install cargo-udeps              || true
 
       - name: Test
-        run: cargo test --features=ci
+        run: cargo test
 
       - name: Test with checks
         run: cargo test --features=rewriter/check-offsets,rewriter/check-rewrites

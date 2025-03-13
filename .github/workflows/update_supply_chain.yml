@@ -31,7 +31,7 @@ jobs:
         run: cargo install cargo-supply-chain || true
 
       - name: Update supply_chain.json
-        run: cargo test --features=ci --test ci supply_chain
+        run: cargo test --test ci supply_chain
         env:
           BLESS: 1
 
