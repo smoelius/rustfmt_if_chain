@@ -47,7 +47,7 @@ const EXCEPTIONS: &[&str] = &[
 ];
 
 #[test]
-fn clippy() {
+fn format_clippy() {
     let tempdir = tempdir_in(".").unwrap();
 
     let crashes = tempdir.path().join("tests/ui/crashes");
