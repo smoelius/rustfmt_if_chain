@@ -13,7 +13,9 @@ use tempfile::tempdir;
 
 #[ctor::ctor]
 fn initialize() {
-    remove_var("CARGO_TERM_COLOR");
+    unsafe {
+        remove_var("CARGO_TERM_COLOR");
+    }
 }
 
 #[test]
