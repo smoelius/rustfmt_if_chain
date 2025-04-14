@@ -44,6 +44,10 @@ const EXCEPTIONS: &[&str] = &[
     "tests/ui/unnecessary_operation.rs",
     // smoelius: "expected identifier or integer at LineColumn { line: 32, column: 6 }"
     "tests/ui/unnecessary_semicolon.rs",
+    // smoelius: "expected identifier, found keyword `unsafe` at LineColumn { line: 119, column: 12 }"
+    // As https://github.com/rust-lang/rust-clippy/issues/14558 explains, unsafe fields are still
+    // unstable.
+    "tests/ui/derive.rs",
 ];
 
 #[test]
