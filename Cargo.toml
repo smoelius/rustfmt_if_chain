@@ -16,7 +16,6 @@ quote = "1.0"
 rewriter = { version = "0.2", features = ["proc-macro2-span"] }
 sedregex = "0.2"
 syn = { version = "2.0", features = ["full", "visit"] }
-tempfile = "3.10"
 
 [build-dependencies]
 rustc_version = "0.4"
@@ -28,6 +27,7 @@ predicates = "3.1"
 regex = "1.11"
 serde_json = "1.0"
 similar-asserts = "1.7"
+tempfile = "3.19"
 walkdir = "2.5"
 
 [lints.rust.unexpected_cfgs]
