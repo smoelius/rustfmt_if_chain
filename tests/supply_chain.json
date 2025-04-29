@@ -103,6 +103,22 @@
         "name": "Taiki Endo"
       }
     ],
+    "getrandom": [
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/42028081?v=4",
+        "id": 563,
+        "kind": "team",
+        "login": "github:rust-random:maintainers",
+        "name": "maintainers"
+      },
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/134893?v=4",
+        "id": 1234,
+        "kind": "user",
+        "login": "dhardy",
+        "name": "Diggory Hardy"
+      }
+    ],
     "if_chain": [
       {
         "avatar": "https://avatars.githubusercontent.com/u/1572323?v=4",
@@ -110,15 +126,6 @@
         "kind": "user",
         "login": "lambda-fairy",
         "name": "Chris Wong"
-      }
-    ],
-    "itoa": [
-      {
-        "avatar": "https://avatars.githubusercontent.com/u/1940490?v=4",
-        "id": 3618,
-        "kind": "user",
-        "login": "dtolnay",
-        "name": "David Tolnay"
       }
     ],
     "libc": [
@@ -222,6 +229,15 @@
         "kind": "user",
         "login": "dtolnay",
         "name": "David Tolnay"
+      }
+    ],
+    "r-efi": [
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/623857?v=4",
+        "id": 12177,
+        "kind": "user",
+        "login": "dvdhrm",
+        "name": "David Rheinsberg"
       }
     ],
     "regex": [
@@ -411,6 +427,22 @@
         "name": "David Tolnay"
       }
     ],
+    "wasi": [
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/64996?v=4",
+        "id": 1,
+        "kind": "user",
+        "login": "alexcrichton",
+        "name": "Alex Crichton"
+      },
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/4503403?v=4",
+        "id": 6825,
+        "kind": "user",
+        "login": "sunfishcode",
+        "name": "Dan Gohman"
+      }
+    ],
     "windows-sys": [
       {
         "avatar": "https://avatars.githubusercontent.com/u/9845234?v=4",
@@ -456,6 +488,15 @@
         "name": "Kenny Kerr"
       }
     ],
+    "windows_i686_gnullvm": [
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/9845234?v=4",
+        "id": 64539,
+        "kind": "user",
+        "login": "kennykerr",
+        "name": "Kenny Kerr"
+      }
+    ],
     "windows_i686_msvc": [
       {
         "avatar": "https://avatars.githubusercontent.com/u/9845234?v=4",
@@ -490,6 +531,22 @@
         "kind": "user",
         "login": "kennykerr",
         "name": "Kenny Kerr"
+      }
+    ],
+    "wit-bindgen-rt": [
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/64996?v=4",
+        "id": 1,
+        "kind": "user",
+        "login": "alexcrichton",
+        "name": "Alex Crichton"
+      },
+      {
+        "avatar": "https://avatars.githubusercontent.com/u/54038801?v=4",
+        "id": 2633,
+        "kind": "team",
+        "login": "github:bytecodealliance:wasmtime-publish",
+        "name": "wasmtime-publish"
       }
     ]
   },
