@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.8
+
+- Upgrade `rewriter` to version 0.2 ([cfea9c3](https://github.com/smoelius/rustfmt_if_chain/commit/cfea9c31f8a98e419b6d1ba356dbd0a1cbf5db36))
+
 ## 0.1.7
 
 - Upgrade to `syn` 2.0 ([#39](https://github.com/smoelius/rustfmt_if_chain/pull/39))
