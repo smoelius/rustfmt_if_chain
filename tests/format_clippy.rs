@@ -48,6 +48,8 @@ const EXCEPTIONS: &[&str] = &[
     // As https://github.com/rust-lang/rust-clippy/issues/14558 explains, unsafe fields are still
     // unstable.
     "tests/ui/derive.rs",
+    // smoelius: "expected `,` at LineColumn { line: 6, column: 18 }"
+    "tests/ui/non_expressive_names_error_recovery.rs",
 ];
 
 #[test]
