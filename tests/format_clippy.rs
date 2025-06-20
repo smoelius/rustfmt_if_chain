@@ -50,6 +50,8 @@ const EXCEPTIONS: &[&str] = &[
     "tests/ui/derive.rs",
     // smoelius: "expected `,` at LineColumn { line: 6, column: 18 }"
     "tests/ui/non_expressive_names_error_recovery.rs",
+    // smoelius: "expected identifier, found keyword `const` at LineColumn { line: 31, column: 7 }"
+    "tests/ui/missing_const_for_fn/const_trait.rs",
 ];
 
 #[test]
