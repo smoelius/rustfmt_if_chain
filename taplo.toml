@@ -1,0 +1,9 @@
+[formatting]
+reorder_keys = false
+
+[[rule]]
+include = ["**/Cargo.toml"]
+keys = ["dependencies", "build-dependencies", "dev-dependencies"]
+
+[rule.formatting]
+reorder_keys = true

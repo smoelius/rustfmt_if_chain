@@ -126,14 +126,6 @@ fn readme_contains_usage() {
     assert!(contents.contains(usage));
 }
 
-#[test]
-fn sort() {
-    Command::new("cargo")
-        .args(["sort", "--check"])
-        .assert()
-        .success();
-}
-
 #[cfg_attr(
     dylint_lib = "non_thread_safe_call_in_test",
     allow(non_thread_safe_call_in_test)
@@ -167,6 +159,11 @@ fn supply_chain() {
             SimpleDiff::from_str(&stdout_expected, &stdout_normalized, "left", "right")
         );
     }
+}
+
+#[test]
+fn taplo() {
+    Command::new("taplo").args(["check"]).assert().success();
 }
 
 #[test]
