@@ -50,13 +50,6 @@
     ],
     "cfg-if": [
       {
-        "avatar": "https://avatars.githubusercontent.com/u/64996?v=4",
-        "id": 1,
-        "kind": "user",
-        "login": "alexcrichton",
-        "name": "Alex Crichton"
-      },
-      {
         "avatar": "https://avatars.githubusercontent.com/u/5430905?v=4",
         "id": 11,
         "kind": "team",
