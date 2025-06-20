@@ -35,6 +35,10 @@ jobs:
             target/dylint/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-udeps, taplo
+
       - name: Install tools
         run: |
           rustup update
@@ -43,9 +47,7 @@ jobs:
           rustup component add rustfmt --toolchain nightly
           cargo install cargo-dylint dylint-link || true
           cargo install cargo-license            || true
-          cargo install cargo-sort               || true
           cargo install cargo-supply-chain       || true
-          cargo install cargo-udeps              || true
 
       - name: Test
         run: cargo test
