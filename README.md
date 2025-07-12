@@ -1,5 +1,8 @@
 # rustfmt_if_chain
 
+> [!NOTE]
+> Now that [let chains] have stabilized, there is little reason to use this tool on new projects.
+
 A wrapper around [`rustfmt`] to format inside [`if_chain`] invocations
 
 `rustfmt_if_chain` is not guaranteed to work on all Rust source files, but it should work on most of [Clippy]'s source files.
@@ -66,5 +69,6 @@ instead of an error.
 - Nested uses of `if_chain` are not handled correctly: only the outer-most use is formatted.
 
 [clippy]: https://github.com/rust-lang/rust-clippy
+[let chains]: https://blog.rust-lang.org/2025/06/26/Rust-1.88.0/#let-chains
 [`if_chain`]: https://github.com/lambda-fairy/if_chain
 [`rustfmt`]: https://github.com/rust-lang/rustfmt
